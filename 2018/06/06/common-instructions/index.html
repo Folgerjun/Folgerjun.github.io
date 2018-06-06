@@ -1,0 +1,181 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="Windows/CMD/Linux/Git常用命令整理"><meta name="keywords" content="Windows,CMD,Linux,Git"><meta name="author" content="Folgerjun,undefined"><meta name="copyright" content="Folgerjun"><title>Windows/CMD/Linux/Git常用命令整理 | DoubleFJ の Blog</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.4"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.js" defer></script><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?7aad83bb2e8992c6c6479f56e988e5b7";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"LQFV2HSBA9","apiKey":"1abe86b5af2a3a59af2ef30373411d90","indexName":"my-blog","hits":{"per_page":10},"labels":{"input_placeholder":"search what ?","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  localSearch: undefined
+} </script></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#总览"><span class="toc-number">1.</span> <span class="toc-text">总览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows-Win-R-快捷操作"><span class="toc-number">2.</span> <span class="toc-text">Windows Win+R 快捷操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#打开本地服务"><span class="toc-number">2.1.</span> <span class="toc-text">打开本地服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#打开注册表"><span class="toc-number">2.2.</span> <span class="toc-text">打开注册表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#打开CMD界面"><span class="toc-number">2.3.</span> <span class="toc-text">打开CMD界面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#打开组策略"><span class="toc-number">2.4.</span> <span class="toc-text">打开组策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#打开记事本"><span class="toc-number">2.5.</span> <span class="toc-text">打开记事本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#磁盘清理"><span class="toc-number">2.6.</span> <span class="toc-text">磁盘清理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看win版本"><span class="toc-number">2.7.</span> <span class="toc-text">查看win版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#打开画图板"><span class="toc-number">2.8.</span> <span class="toc-text">打开画图板</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#远程连接"><span class="toc-number">2.9.</span> <span class="toc-text">远程连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#shutdown"><span class="toc-number">2.10.</span> <span class="toc-text">shutdown</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CMD常用命令"><span class="toc-number">3.</span> <span class="toc-text">CMD常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看IP信息"><span class="toc-number">3.1.</span> <span class="toc-text">查看IP信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改本机IP"><span class="toc-number">3.2.</span> <span class="toc-text">修改本机IP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网络诊断"><span class="toc-number">3.3.</span> <span class="toc-text">网络诊断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#无线WLAN操作"><span class="toc-number">3.4.</span> <span class="toc-text">无线WLAN操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看端口状态"><span class="toc-number">3.5.</span> <span class="toc-text">查看端口状态</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux常用命令"><span class="toc-number">4.</span> <span class="toc-text">Linux常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#系统显示"><span class="toc-number">4.1.</span> <span class="toc-text">系统显示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关机、重启"><span class="toc-number">4.2.</span> <span class="toc-text">关机、重启</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件和目录"><span class="toc-number">4.3.</span> <span class="toc-text">文件和目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#磁盘空间"><span class="toc-number">4.4.</span> <span class="toc-text">磁盘空间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件权限"><span class="toc-number">4.5.</span> <span class="toc-text">文件权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解压-压缩文件"><span class="toc-number">4.6.</span> <span class="toc-text">解压/压缩文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看文件内容"><span class="toc-number">4.7.</span> <span class="toc-text">查看文件内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程"><span class="toc-number">4.8.</span> <span class="toc-text">进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#部署"><span class="toc-number">4.9.</span> <span class="toc-text">部署</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#top视图"><span class="toc-number">4.10.</span> <span class="toc-text">top视图</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Git常用命令"><span class="toc-number">5.</span> <span class="toc-text">Git常用命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">6.</span> <span class="toc-text">参考资料</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://avatars3.githubusercontent.com/u/24917694?s=460&amp;v=4"></div><div class="author-info__name text-center">Folgerjun</div><div class="author-info__description text-center">DoubleFJ の Blog</div><div class="follow-button"><a href="https://github.com/Folgerjun" target="_blank">follow ?</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">6</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">13</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">7</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">Links</div><a class="author-info-links__name text-center" href="http://lay.putop.top" target="_blank">lay.putop.top</a><a class="author-info-links__name text-center" href="http://face.putop.top" target="_blank">face.putop.top</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(http://image.jjmh.com/file/userfiles/images/auto95/201703171209186237.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">DoubleFJ の Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/about">About</a></span></div><div id="post-info"><div id="post-title">Windows/CMD/Linux/Git常用命令整理</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2018-06-06</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/开发/">开发</a><i class="fa fa-angle-right" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/开发/总结/">总结</a><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">2,485</span><span class="post-meta__separator">|</span><span>阅读时长: 9 分钟</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div id="post-content"><p>Windows/CMD/Linux/Git常用命令整理，由于平常经常会使用故趁热把这些都一起整理下。</p>
+<h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><ul>
+<li><a href="#1">Windows Win+R 快捷操作</a></li>
+<li><a href="#2">CMD常用命令</a></li>
+<li><a href="#3">Linux常用命令</a></li>
+<li><a href="#4">Git常用命令</a></li>
+<li><a href="#5">参考资料</a></li>
+</ul>
+<hr>
+<h2 id="Windows-Win-R-快捷操作"><a href="#Windows-Win-R-快捷操作" class="headerlink" title="Windows Win+R 快捷操作"></a><span id="1">Windows Win+R 快捷操作</span></h2><blockquote>
+<p>有时候不用去挨个点开什么控制面板啊再计算机什么的直接命令快速打开，列举平常使用率较高的几个</p>
+</blockquote>
+<h3 id="打开本地服务"><a href="#打开本地服务" class="headerlink" title="打开本地服务"></a>打开本地服务</h3><p><code>services.msc</code>这个对于开发人员是经常需要操作的</p>
+<h3 id="打开注册表"><a href="#打开注册表" class="headerlink" title="打开注册表"></a>打开注册表</h3><p><code>regedit</code>有时候卸载或者重装软件的时候会需要操作注册表</p>
+<h3 id="打开CMD界面"><a href="#打开CMD界面" class="headerlink" title="打开CMD界面"></a>打开CMD界面</h3><p><code>cmd</code>这个就不用说了，用管理员方式打开则需要右击操作</p>
+<h3 id="打开组策略"><a href="#打开组策略" class="headerlink" title="打开组策略"></a>打开组策略</h3><p><code>gpedit.msc</code>可以查看计算机配置和用户配置</p>
+<h3 id="打开记事本"><a href="#打开记事本" class="headerlink" title="打开记事本"></a>打开记事本</h3><p><code>notepad</code></p>
+<h3 id="磁盘清理"><a href="#磁盘清理" class="headerlink" title="磁盘清理"></a>磁盘清理</h3><p><code>cleanmgr</code>可以快速清理一些回收垃圾</p>
+<h3 id="查看win版本"><a href="#查看win版本" class="headerlink" title="查看win版本"></a>查看win版本</h3><p><code>winver</code></p>
+<h3 id="打开画图板"><a href="#打开画图板" class="headerlink" title="打开画图板"></a>打开画图板</h3><p><code>mspaint</code></p>
+<h3 id="远程连接"><a href="#远程连接" class="headerlink" title="远程连接"></a>远程连接</h3><p><code>mstsc</code></p>
+<h3 id="shutdown"><a href="#shutdown" class="headerlink" title="shutdown"></a>shutdown</h3><ul>
+<li><code>shutdown -r</code>表示重启</li>
+<li><code>shutdown -s -t 60</code>表示60秒后正常关机</li>
+<li><code>shutdown -s -t 60 -c 关机</code>则多了个提示消息<br><br>常用参数有：<code>&quot;-s&quot;正常关机、&quot;-f&quot;强制关机、&quot;-r&quot;重启、&quot;-t&quot;定时关机、&quot;-c&quot; 设置提示信息、&quot;-a&quot; 是取消定时关机</code></li>
+</ul>
+<h2 id="CMD常用命令"><a href="#CMD常用命令" class="headerlink" title="CMD常用命令"></a><span id="2">CMD常用命令</span></h2><blockquote>
+<p>由于本人使用的都是Windows系统，平时难免会需要经常接触CMD来方便一些操作，列举平常使用率较高的几个(cd/dir/切换磁盘什么的这些就不说了…)</p>
+</blockquote>
+<h3 id="查看IP信息"><a href="#查看IP信息" class="headerlink" title="查看IP信息"></a>查看IP信息</h3><p><code>ipconfig</code></p>
+<h3 id="修改本机IP"><a href="#修改本机IP" class="headerlink" title="修改本机IP"></a>修改本机IP</h3><p><code>netsh interface ip set address &quot;以太网&quot; static 192.168.30.100 255.255.255.0 192.168.30.1</code><br><br><strong>注：这里<code>以太网</code>是网络名称，<code>192.168.30.100</code>是你要修改的IP<code>255.255.255.0</code>为子网掩码<code>192.168.30.1</code>为网关</strong></p>
+<h3 id="网络诊断"><a href="#网络诊断" class="headerlink" title="网络诊断"></a>网络诊断</h3><p><code>ping putop.top</code>就是给putop.top发送数据包看有没有返回</p>
+<h3 id="无线WLAN操作"><a href="#无线WLAN操作" class="headerlink" title="无线WLAN操作"></a>无线WLAN操作</h3><p>只要你输入<code>netsh wlan</code>就会出现许多提示，只要能看懂字就会操作了<br><br>如<code>netsh wlan connect wuxian</code>就是连接无线名为<code>wuxian</code>的无线网络了，<code>netsh wlan disconnect</code>就是断开无线连接</p>
+<h3 id="查看端口状态"><a href="#查看端口状态" class="headerlink" title="查看端口状态"></a>查看端口状态</h3><ul>
+<li><code>netstat -ano</code>查看所有端口占用情况<br></li>
+<li><code>netstat -aon|findstr &quot;8080&quot;</code>查看指定端口占用情况<code>8080</code>为端口号<br></li>
+<li><code>tasklist|findstr &quot;2018&quot;</code>查看指定PID对应的进程<code>2018</code>为PID<br></li>
+<li><code>taskkill /f /t /im java.exe</code>删除指定进程<br><br>完整语法为：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">TASKKILL [/S system [/U username [/P [password]]]]</span><br><span class="line">         &#123; [/FI filter] [/PID processid | /IM imagename] &#125; [/T] [/F]</span><br><span class="line"></span><br><span class="line">    /S    system           指定要连接的远程系统。</span><br><span class="line">    /U    [domain\]user    指定应该在哪个用户上下文执行这个命令。</span><br><span class="line">    /P    [password]       为提供的用户上下文指定密码。如果忽略，提示输入。</span><br><span class="line">    /FI   filter           应用筛选器以选择一组任务。允许使用 &quot;*&quot;。例如，映像名称 eq acme*</span><br><span class="line">    /PID  processid        指定要终止的进程的 PID。使用 TaskList 取得 PID。</span><br><span class="line">    /IM   imagename        指定要终止的进程的映像名称。通配符 &apos;*&apos;可用来指定所有任务或映像名称。</span><br><span class="line">    /T                     终止指定的进程和由它启用的子进程。</span><br><span class="line">    /F                     指定强制终止进程。</span><br><span class="line">    /?                     显示帮助消息。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="Linux常用命令"><a href="#Linux常用命令" class="headerlink" title="Linux常用命令"></a><span id="3">Linux常用命令</span></h2><blockquote>
+<p>平时部署项目也会用到Linux系统，整理下平时常用的几个(cd/ls/ll这些也不说了…)说来惭愧，经常用ftp操作感觉还挺方便还是Windows用多了啊</p>
+</blockquote>
+<h3 id="系统显示"><a href="#系统显示" class="headerlink" title="系统显示"></a>系统显示</h3><ul>
+<li><code>date</code>显示系统时间</li>
+<li><code>cal 2018</code>显示2018年的日历表</li>
+<li><code>date 060610502018.00</code>设置日期和时间 月日时分年.秒</li>
+<li><code>clock -w</code>将时间修改保存到BIOS中</li>
+<li><code>cat /proc/cpuinfo</code>显示CPU info的信息</li>
+<li><code>lsusb -tv</code>显示USB设备</li>
+</ul>
+<h3 id="关机、重启"><a href="#关机、重启" class="headerlink" title="关机、重启"></a>关机、重启</h3><ul>
+<li><code>shutdown -h now</code>关闭系统</li>
+<li><code>shutdown -h hours:minutes &amp;</code>按预定时间关闭系统</li>
+<li><code>shutdown -c</code>取消按预定时间关闭系统</li>
+<li><code>shutdown -r now</code>重启</li>
+<li><code>logout</code>注销</li>
+</ul>
+<h3 id="文件和目录"><a href="#文件和目录" class="headerlink" title="文件和目录"></a>文件和目录</h3><ul>
+<li><code>mkdir dir</code>创建名为dir的目录</li>
+<li><code>rmdir dir</code>删除名为dir的目录</li>
+<li><code>rm -rf dir</code>删除名为dir的目录并同时删除其内容</li>
+<li><code>rm -f file</code>删除名为file的文件</li>
+<li><code>mv dir new_dir</code>重命名/移动名为dir的目录</li>
+<li><code>cp file same_file</code>复制一个名为file的文件叫做same_file</li>
+<li><code>cp -a dir same_dir</code>复制一个名为dir的目录叫做same_dir</li>
+<li><code>cp dir/* .</code>复制一个目录下的所有文件到当前工作目录</li>
+<li><code>cp -a /tmp/dir</code>复制一个目录到当前工作目录</li>
+</ul>
+<h3 id="磁盘空间"><a href="#磁盘空间" class="headerlink" title="磁盘空间"></a>磁盘空间</h3><ul>
+<li><code>df -h</code>显示已经挂载的分区列表</li>
+<li><code>du -sh dir</code>估算目录<code>dir</code>已经使用的磁盘空间</li>
+</ul>
+<h3 id="文件权限"><a href="#文件权限" class="headerlink" title="文件权限"></a>文件权限</h3><ul>
+<li><code>ls -lh</code>显示权限</li>
+<li><code>chmod ugo+rwx dir</code>设置目录的所有人(u)、群组(g)以及其他人(o)以读（r）、写(w)和执行(x)的权限，使用 “+” 设置权限，使用 “-“ 用于取消</li>
+<li><code>chattr +a file</code>只允许以追加方式读写文件</li>
+<li><code>chattr +i file1</code>设置成不可变的文件，不能被删除、修改、重命名或者链接</li>
+<li><code>chattr +S file</code>一旦应用程序对这个文件执行了写操作，使系统立刻把修改的结果写到磁盘</li>
+<li><code>chattr +u file</code>若文件被删除，系统会允许你在以后恢复这个被删除的文件 </li>
+<li><code>lsattr</code>显示特殊的属性</li>
+</ul>
+<h3 id="解压-压缩文件"><a href="#解压-压缩文件" class="headerlink" title="解压/压缩文件"></a>解压/压缩文件</h3><ul>
+<li>压缩<ul>
+<li><code>tar –cvf jpg.tar *.jpg</code>将目录里所有jpg文件打包成tar.jpg</li>
+<li><code>tar –czf jpg.tar.gz *.jpg</code>将目录里所有jpg文件打包成jpg.tar后，并且将其用gzip压缩，生成一个gzip压缩过的包，命名为jpg.tar.gz</li>
+<li><code>tar –cjf jpg.tar.bz2 *.jpg</code>将目录里所有jpg文件打包成jpg.tar后，并且将其用bzip2压缩，生成一个bzip2压缩过的包，命名为jpg.tar.bz2</li>
+<li><code>tar –cZf jpg.tar.Z *.jpg</code>将目录里所有jpg文件打包成jpg.tar后，并且将其用compress压缩，生成一个umcompress压缩过的包，命名为jpg.tar.Z</li>
+<li><code>rar a jpg.rar *.jpg</code>rar格式的压缩，需要先下载rar for linux</li>
+<li><code>zip jpg.zip *.jpg</code>zip格式的压缩，需要先下载zip for linux</li>
+</ul>
+</li>
+<li>解压<ul>
+<li><code>tar –xvf file.tar</code>解压 tar包</li>
+<li><code>tar -xzvf file.tar.gz</code>解压tar.gz</li>
+<li><code>tar -xjvf file.tar.bz2</code>解压 tar.bz2</li>
+<li><code>tar –xZvf file.tar.Z</code>解压tar.Z</li>
+<li><code>unrar e file.rar</code>解压rar</li>
+<li><code>unzip file.zip</code>解压zip</li>
+</ul>
+</li>
+</ul>
+<h3 id="查看文件内容"><a href="#查看文件内容" class="headerlink" title="查看文件内容"></a>查看文件内容</h3><ul>
+<li><code>cat file</code>从第一个字节开始正向查看文件<code>file</code>的内容</li>
+<li><code>tac file</code>从最后一行开始反向查看文件<code>file</code>的内容</li>
+<li><code>more file</code>查看一个长文件的内容</li>
+<li><code>head -2 file</code>查看一个文件的前两行</li>
+<li><code>tail -2 file</code>查看一个文件的最后两行</li>
+<li><code>tail -f /var/log/messages</code>实时查看被添加到一个文件中的内容，这个平时查看日志经常会用到</li>
+</ul>
+<h3 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h3><ul>
+<li><code>ps -ef</code>查看所有运行进程</li>
+<li><code>ps -ef|grep java</code>指定查看java进程，java开发人员经常使用，比如鄙人</li>
+<li><code>kill PID</code>停止该PID表示进程，必要时加上<code>- 9</code>强制</li>
+</ul>
+<h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><ul>
+<li><code>nohup java -jar xx.jar &gt;/dev/null &amp;</code>这是jar包的后台部署，加上<code>&amp;</code>就是后台运行</li>
+</ul>
+<h3 id="top视图"><a href="#top视图" class="headerlink" title="top视图"></a>top视图</h3><ul>
+<li><code>top</code>进入top视图<br><br>视图数据详解：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">第一行：</span><br><span class="line">10:01:23 — 当前系统时间</span><br><span class="line">126 days, 14:29 — 系统已经运行了126天14小时29分钟（在这期间没有重启过）</span><br><span class="line">2 users — 当前有2个用户登录系统</span><br><span class="line">load average: 1.15, 1.42, 1.44 — load average后面的三个数分别是1分钟、5分钟、15分钟的负载情况。</span><br><span class="line"></span><br><span class="line">第二行：</span><br><span class="line">Tasks — 任务（进程），系统现在共有183个进程，其中处于运行中的有1个，182个在休眠（sleep），stoped状态的有0个，zombie状态（僵尸）的有0个。</span><br><span class="line"></span><br><span class="line">第三行：cpu状态</span><br><span class="line">6.7% us — 用户空间占用CPU的百分比。</span><br><span class="line">0.4% sy — 内核空间占用CPU的百分比。</span><br><span class="line">0.0% ni — 改变过优先级的进程占用CPU的百分比</span><br><span class="line">92.9% id — 空闲CPU百分比</span><br><span class="line">0.0% wa — IO等待占用CPU的百分比</span><br><span class="line">0.0% hi — 硬中断（Hardware IRQ）占用CPU的百分比</span><br><span class="line">0.0% si — 软中断（Software Interrupts）占用CPU的百分比</span><br><span class="line"></span><br><span class="line">第四行：内存状态</span><br><span class="line">8306544k total — 物理内存总量（8GB）</span><br><span class="line">7775876k used — 使用中的内存总量（7.7GB）</span><br><span class="line">530668k free — 空闲内存总量（530M）</span><br><span class="line">79236k buffers — 缓存的内存量 （79M）</span><br><span class="line"></span><br><span class="line">第五行：swap交换分区</span><br><span class="line">2031608k total — 交换区总量（2GB）</span><br><span class="line">2556k used — 使用的交换区总量（2.5M）</span><br><span class="line">2029052k free — 空闲交换区总量（2GB）</span><br><span class="line">4231276k cached — 缓冲的交换区总量（4GB）</span><br><span class="line"></span><br><span class="line">第六行是空行</span><br><span class="line"></span><br><span class="line">第七行以下：各进程（任务）的状态监控</span><br><span class="line">PID — 进程id</span><br><span class="line">USER — 进程所有者</span><br><span class="line">PR — 进程优先级</span><br><span class="line">NI — nice值。负值表示高优先级，正值表示低优先级</span><br><span class="line">VIRT — 进程使用的虚拟内存总量，单位kb。VIRT=SWAP+RES</span><br><span class="line">RES — 进程使用的、未被换出的物理内存大小，单位kb。RES=CODE+DATA</span><br><span class="line">SHR — 共享内存大小，单位kb</span><br><span class="line">S — 进程状态。D=不可中断的睡眠状态 R=运行 S=睡眠 T=跟踪/停止 Z=僵尸进程</span><br><span class="line">%CPU — 上次更新到现在的CPU时间占用百分比</span><br><span class="line">%MEM — 进程使用的物理内存百分比</span><br><span class="line">TIME+ — 进程使用的CPU时间总计，单位1/100秒</span><br><span class="line">COMMAND — 进程名称（命令名/命令行）</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="Git常用命令"><a href="#Git常用命令" class="headerlink" title="Git常用命令"></a><span id="4">Git常用命令</span></h2><blockquote>
+<p>不免要使用git来版本管理</p>
+</blockquote>
+<ul>
+<li><code>git init</code>创建版本库</li>
+<li><code>git clone</code>克隆仓库</li>
+<li><code>git add</code>添加文件到暂存区</li>
+<li><code>git commit</code>提交更改,加上<code>- m</code>增加提交说明</li>
+<li><code>git status</code>查看状态</li>
+<li><code>git rm</code>删除文件</li>
+<li><code>git diff</code>文件对比</li>
+<li><code>git log</code>日志显示</li>
+<li><code>git push</code>上传</li>
+<li><code>git merge</code>合并</li>
+<li><code>git branch -d</code>删除分支</li>
+<li><code>git fetch</code>获取分支</li>
+<li><code>git pull</code>更新</li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a><span id="5">参考资料</span></h2><ul>
+<li><a href="https://blog.csdn.net/CDersTeam/article/details/51346911" target="_blank" rel="noopener">Windows下常用的100个CMD指令以及常见的操作</a></li>
+<li><a href="https://www.cnblogs.com/yjd_hycf_space/p/7730690.html" target="_blank" rel="noopener">Linux常用命令大全</a></li>
+<li><a href="https://www.cnblogs.com/zdz8207/p/3765604.html" target="_blank" rel="noopener">Linux下的压缩zip,解压缩unzip命令详解及实例</a></li>
+<li><a href="https://blog.csdn.net/dxl342/article/details/53507673" target="_blank" rel="noopener">Linux top命令的用法详细详解</a></li>
+<li><a href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="noopener">Git教程 - 廖雪峰的官方网站</a></li>
+<li><a href="https://blog.csdn.net/riddle1981/article/details/74938111" target="_blank" rel="noopener">详解git fetch与git pull的区别</a></li>
+</ul>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Folgerjun</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://putop.top/2018/06/06/common-instructions/">http://putop.top/2018/06/06/common-instructions/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://putop.top" target="_blank">DoubleFJ の Blog</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Windows/">Windows</a><a class="post-meta__tags" href="/tags/CMD/">CMD</a><a class="post-meta__tags" href="/tags/Linux/">Linux</a><a class="post-meta__tags" href="/tags/Git/">Git</a></div><nav id="pagination"><div class="next-post pull-right"><a href="/2018/05/31/summary-180531/"><span>Java中一些小知识点</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="vcomment"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'false' == true ? true : false;
+var verify = 'false' == true ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'lykH3HaE6LQDaaR68kpFjKtF-gzGzoHsz',
+  appKey:'PECt6iawOFxDkcUTOADzboyr',
+  placeholder:'Welcome to you, my friend!',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10'
+})</script></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2018 By Folgerjun</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="icp"><a><span>皖ICP备17001794号-2</span></a></div><div class="busuanzi"><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.5.4"></script><script src="/js/fancybox.js?version=1.5.4"></script><script src="/js/sidebar.js?version=1.5.4"></script><script src="/js/copy.js?version=1.5.4"></script><script src="/js/fireworks.js?version=1.5.4"></script><script src="/js/transition.js?version=1.5.4"></script><script src="/js/scroll.js?version=1.5.4"></script><script src="/js/head.js?version=1.5.4"></script></body></html>
