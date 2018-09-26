@@ -1,0 +1,146 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="动态规划之 0-1 背包问题详解"><meta name="keywords" content="算法,Java,动态规划"><meta name="author" content="Folgerjun,undefined"><meta name="copyright" content="Folgerjun"><title>动态规划之 0-1 背包问题详解 | DoubleFJ の Blog</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.4"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.js" defer></script><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?7aad83bb2e8992c6c6479f56e988e5b7";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"LQFV2HSBA9","apiKey":"1abe86b5af2a3a59af2ef30373411d90","indexName":"my-blog","hits":{"per_page":10},"labels":{"input_placeholder":"search what ?","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  localSearch: undefined
+} </script></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动态规划"><span class="toc-number">2.</span> <span class="toc-text">动态规划</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题详解"><span class="toc-number">3.</span> <span class="toc-text">问题详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题描述"><span class="toc-number">3.1.</span> <span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题分析"><span class="toc-number">3.2.</span> <span class="toc-text">问题分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#例题讲解"><span class="toc-number">3.3.</span> <span class="toc-text">例题讲解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">4.</span> <span class="toc-text">参考资料</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://avatars3.githubusercontent.com/u/24917694?s=460&amp;v=4"></div><div class="author-info__name text-center">Folgerjun</div><div class="author-info__description text-center">DoubleFJ の Blog</div><div class="follow-button"><a href="https://github.com/Folgerjun" target="_blank">follow ?</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">23</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">26</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">9</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">Links</div><a class="author-info-links__name text-center" href="http://lay.putop.top" target="_blank">lay.putop.top</a><a class="author-info-links__name text-center" href="http://face.putop.top" target="_blank">face.putop.top</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://raw.githubusercontent.com/Folgerjun/materials/master/blog/img/top_img.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">DoubleFJ の Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/about">About</a></span></div><div id="post-info"><div id="post-title">动态规划之 0-1 背包问题详解</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2018-09-26</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/开发/">开发</a><i class="fa fa-angle-right" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/开发/算法/">算法</a><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">1,565</span><span class="post-meta__separator">|</span><span>阅读时长: 6 分钟</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div id="post-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>背包问题是比较经典的动态规划算法题，之前没接触过算法都没听说过这个，也是后来在 leetcode 中刷题时才了解到，惭愧惭愧啊。算法的世界太奇妙，数学一直都是那么令人着迷。今天来总结一下这个 01 背包问题。<strong>注：这里的物品不可拆分。</strong></p>
+<h2 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h2><p>首先了解下什么是动态规划。动态规划(dynamic programming)是运筹学的一个分支，是求解决策过程(decision process)最优化的数学方法。20世纪50年代初美国数学家R.E.Bellman等人在研究多阶段决策过程(multistep decision process)的优化问题时，提出了著名的最优化原理(principle of optimality)，把多阶段过程转化为一系列单阶段问题，利用各阶段之间的关系，逐个求解，创立了解决这类过程优化问题的新方法——动态规划。1957年出版了他的名著《Dynamic Programming》，这是该领域的第一本著作。</p>
+<p>动态规划算法通常用于求解具有某种最优性质的问题。在这类问题中，可能会有许多可行解。每一个解都对应于一个值，我们希望找到具有最优值的解。动态规划算法与分治法类似，其基本思想也是将待求解问题分解成若干个子问题，先求解子问题，然后从这些子问题的解得到原问题的解。与分治法不同的是，适合于用动态规划求解的问题，经分解得到子问题往往不是互相独立的。若用分治法来解这类问题，则分解得到的子问题数目太多，有些子问题被重复计算了很多次。如果我们能够保存已解决的子问题的答案，而在需要时再找出已求得的答案，这样就可以避免大量的重复计算，节省时间。我们可以用一个表来记录所有已解的子问题的答案。不管该子问题以后是否被用到，只要它被计算过，就将其结果填入表中。这就是动态规划法的基本思路。具体的动态规划算法多种多样，但它们具有相同的填表格式。</p>
+<p>详情可见：<a href="https://baike.baidu.com/item/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/529408?fr=aladdin" target="_blank" rel="noopener">动态规划</a></p>
+<h2 id="问题详解"><a href="#问题详解" class="headerlink" title="问题详解"></a>问题详解</h2><h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>给定 N 种物品和一个背包。物品i的重量是 Wi，其价值位 Vi，背包的容量为 C。问应该如何选择装入背包的物品，使得转入背包的物品的总价值为最大。</p>
+<h3 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h3><p>在选择物品的时候，对每种物品只有两种选择，要么装入，要么不装入。因此，此为一个 0-1 背包问题。<br>01 背包的递归公式为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">m[i,0] = m[0,j] = 0</span><br><span class="line">m[i,j] = m[i-1,j] ,j &lt; wi</span><br><span class="line">m[i,j] = max(m[i-1,j-wi]+vi, m[i-1,j]) ,j &gt;= wi</span><br></pre></td></tr></table></figure></p>
+<p>其中，m[i,j]为前 i 件物品中选择若干件，放入承重为 j 的背包中，得到的最大的价值。<br><br>wi 为第 i 件商品的重量。<br><br>vi 为第 i 件商品的价值。</p>
+<h3 id="例题讲解"><a href="#例题讲解" class="headerlink" title="例题讲解"></a>例题讲解</h3><p>有编号为 a,b,c,d,e 的五件物品，他们的重量分别为 4,5,6,2,2，价值分别为 6,4,5,3,6，现在给你一个承重为 10 的背包，怎么实现价值最大。</p>
+<p>根据上述公式可以得到一个数据表，表从上向下生成：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">name</th>
+<th style="text-align:center">weight</th>
+<th style="text-align:center">value</th>
+<th style="text-align:center">1</th>
+<th style="text-align:center">2</th>
+<th style="text-align:center">3</th>
+<th style="text-align:center">4</th>
+<th style="text-align:center">5</th>
+<th style="text-align:center">6</th>
+<th style="text-align:center">7</th>
+<th style="text-align:center">8</th>
+<th style="text-align:center">9</th>
+<th style="text-align:center">10</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">a</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">6</td>
+</tr>
+<tr>
+<td style="text-align:center">b</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">10</td>
+<td style="text-align:center">10</td>
+</tr>
+<tr>
+<td style="text-align:center">c</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">10</td>
+<td style="text-align:center">11</td>
+</tr>
+<tr>
+<td style="text-align:center">d</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center">10</td>
+<td style="text-align:center">11</td>
+</tr>
+<tr>
+<td style="text-align:center">e</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center">12</td>
+<td style="text-align:center">12</td>
+<td style="text-align:center">15</td>
+<td style="text-align:center">15</td>
+<td style="text-align:center">15</td>
+</tr>
+</tbody>
+</table>
+<p>故可以根据公式码出如下实现代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line"></span><br><span class="line">    int n = 5;// 5件物品,物品编号为a,b,c,d,e（下面为多加一件物品，第一个物品为虚拟的物品）</span><br><span class="line">    int weight[] = &#123; 0, 4, 5, 6, 2, 2 &#125;;// 物品的重量</span><br><span class="line">    int value[] = &#123; 0, 6, 4, 5, 3, 6 &#125;; // 对应物品的价值</span><br><span class="line">    int c = 10; // 背包容量</span><br><span class="line">    int state[] = &#123; 0, 0, 0, 0, 0, 0 &#125;;// 开始状态</span><br><span class="line">    char name[] = &#123; &apos; &apos;, &apos;a&apos;, &apos;b&apos;, &apos;c&apos;, &apos;d&apos;, &apos;e&apos; &#125;;</span><br><span class="line">    int maxValue = getMaxValue(n, weight, value, state, c);</span><br><span class="line">    System.out.println(&quot;最大价值为 = &quot; + maxValue);</span><br><span class="line">    System.out.print(&quot;放入的物品为 ：&quot;);</span><br><span class="line">    for (int i = 1; i &lt;= 5; i++) &#123;</span><br><span class="line">        if (state[i] == 1) &#123;</span><br><span class="line">            System.out.print(name[i] + &quot;  &quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // System.out.println();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * </span><br><span class="line"> * @param n</span><br><span class="line"> *            物品数量</span><br><span class="line"> * @param weight</span><br><span class="line"> *            物品对应重量（数组下标从0开始，故第一个物品为虚拟物品）</span><br><span class="line"> * @param value</span><br><span class="line"> *            物品对应价值（数组下标从0开始，故第一个物品为虚拟物品）</span><br><span class="line"> * @param state</span><br><span class="line"> *            物品的开始状态</span><br><span class="line"> * @param c</span><br><span class="line"> *            背包的容量</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">public static int getMaxValue(int n, int weight[], int value[], int state[], int c) &#123;</span><br><span class="line">    // n 为物品的数量，数组时需要加 1，此时可以从 0,1,...n 个物品，共 n+1 个商品，其中第 0 个为虚构物品</span><br><span class="line">    // 对于物品的价值，可以写成 2 维数组</span><br><span class="line">    int m[][] = new int[n + 1][c + 1]; // n 为 0,1,2...(n-1),背包重量为 0,1,2...C</span><br><span class="line">    int i, j;</span><br><span class="line"></span><br><span class="line">    for (i = 0; i &lt;= n; i++) &#123;</span><br><span class="line">        m[i][0] = 0;</span><br><span class="line">    &#125;</span><br><span class="line">    for (j = 0; j &lt;= c; j++) &#123;</span><br><span class="line">        m[0][j] = 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for (i = 1; i &lt;= n; i++) &#123;</span><br><span class="line">        // System.out.println();</span><br><span class="line">        for (j = 1; j &lt;= c; j++) &#123;</span><br><span class="line">            if (j &lt; weight[i]) &#123; // 新的物品太重，无法放下</span><br><span class="line">                m[i][j] = m[i - 1][j];</span><br><span class="line">            &#125; else &#123;// 分为放和不放 取较大值</span><br><span class="line">                m[i][j] = Math.max(m[i - 1][j - weight[i]] + value[i], m[i - 1][j]);</span><br><span class="line">            &#125;</span><br><span class="line">            // System.out.print(&quot;m[&quot;+i+&quot;][&quot;+j+&quot;]=&quot;+m[i][j]+&quot; &quot;);</span><br><span class="line">            // System.out.print(m[i][j]+&quot; &quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 根据其最大价值，反向推断是否添加了物品 i</span><br><span class="line"></span><br><span class="line">    j = c;</span><br><span class="line">    for (i = n; i &gt; 0; i--) &#123;</span><br><span class="line">        if (m[i][j] &gt; m[i - 1][j]) &#123;// 物品 i 添加到了序列列表</span><br><span class="line">            state[i] = 1;</span><br><span class="line">            j = j - weight[i];</span><br><span class="line">        &#125; else &#123; // 没有添加</span><br><span class="line">            state[i] = 0;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return m[n][c]; // 最大价值</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>输出结果为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">最大价值为 = 15</span><br><span class="line">放入的物品为 ：a  d  e</span><br></pre></td></tr></table></figure></p>
+<p>具体实现看上述代码即可，注释齐全，简单易懂。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="http://blog.csdn.net/mu399/article/details/7722810" target="_blank" rel="noopener">动态规划之01背包问题（最易理解的讲解）</a></li>
+<li><a href="http://www.cnblogs.com/qinyg/archive/2012/04/26/2471829.html" target="_blank" rel="noopener">算法设计与分析–01背包问题（动态规划法解决）</a></li>
+<li><a href="https://yq.aliyun.com/ziliao/504852" target="_blank" rel="noopener">01背包问题</a></li>
+</ul>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Folgerjun</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://putop.top/2018/09/26/DP-01backpack/">http://putop.top/2018/09/26/DP-01backpack/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://putop.top" target="_blank">DoubleFJ の Blog</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/算法/">算法</a><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/动态规划/">动态规划</a></div><nav id="pagination"><div class="next-post pull-right"><a href="/2018/09/13/laught-often/"><span>笑口常开</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="vcomment"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'true' == true ? true : false;
+var verify = 'false' == true ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'lykH3HaE6LQDaaR68kpFjKtF-gzGzoHsz',
+  appKey:'PECt6iawOFxDkcUTOADzboyr',
+  placeholder:'Welcome to you, my friend!',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10'
+})</script></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2018 By Folgerjun</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="icp"><a><span>皖ICP备17001794号-2</span></a></div><div class="busuanzi"><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.5.4"></script><script src="/js/fancybox.js?version=1.5.4"></script><script src="/js/sidebar.js?version=1.5.4"></script><script src="/js/copy.js?version=1.5.4"></script><script src="/js/fireworks.js?version=1.5.4"></script><script src="/js/transition.js?version=1.5.4"></script><script src="/js/scroll.js?version=1.5.4"></script><script src="/js/head.js?version=1.5.4"></script></body></html>
