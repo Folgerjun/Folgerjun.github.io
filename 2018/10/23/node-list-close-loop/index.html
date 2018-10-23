@@ -29,7 +29,7 @@
 <p>一切清晰明了。让我们再来捋一捋。</p>
 <p>当两指针在 P 点相遇，我们可列出如下等式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">2(L+x) = L+x+n*H        (n &gt;= 1) // n 为快指针在闭环上的圈数</span><br><span class="line">=&gt; 2L+2x = L+x+n*H      (n &gt;= 1)</span><br><span class="line">=&gt; L = n*H-x            (n &gt;= 1)</span><br><span class="line">=&gt; L = n*(H-x)+(n-1)x   (n &gt;= 1)</span><br></pre></td></tr></table></figure></p>
 <p>到这里，是不是有种扒光了的快感，哈哈。<br><strong>网上许多博客就是把 n 默认当成了 1，实则不然。</strong></p>
-<p><strong>思路：</strong>故我们可以这样做，当 l1 与 l2 相遇时，再来一个 l3 指针从链表头开始，而 l1 继续走，l2 就可以终结其使命没必要继续走了。此时 l1 和 l3 指针都是指向其 next。当 l3 指针到达环入口时，l3 也必然到达了环入口，即 l1 和 l3 指针会在环入口相遇，从而可求得入口位置。</p>
+<p><strong>思路：</strong>故我们可以这样做，当 l1 与 l2 相遇时，再来一个 l3 指针从链表头开始，而 l1 继续走，l2 就可以终结其使命没必要继续走了。此时 l1 和 l3 指针都是指向其 next。当 l3 指针到达环入口时，l1 也必然到达了环入口，即 l1 和 l3 指针会在环入口相遇，从而可求得入口位置。</p>
 <h2 id="参考博客"><a href="#参考博客" class="headerlink" title="参考博客"></a>参考博客</h2><ul>
 <li><a href="https://www.cnblogs.com/wuyuegb2312/p/3183214.html" target="_blank" rel="noopener">《编程之美》3.6判断链表是否相交之扩展：链表找环方法证明</a></li>
 <li><a href="https://blog.csdn.net/v_july_v/article/details/6447013" target="_blank" rel="noopener">程序员编程艺术：第九章、闲话链表追赶问题</a></li>
