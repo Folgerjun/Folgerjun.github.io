@@ -1,0 +1,128 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="JVM 之类加载机制"><meta name="keywords" content="Java,JVM"><meta name="author" content="Folgerjun,undefined"><meta name="copyright" content="Folgerjun"><title>JVM 之类加载机制 | DoubleFJ の Blog</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.4"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.js" defer></script><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?7aad83bb2e8992c6c6479f56e988e5b7";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"LQFV2HSBA9","apiKey":"1abe86b5af2a3a59af2ef30373411d90","indexName":"my-blog","hits":{"per_page":10},"labels":{"input_placeholder":"search what ?","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  localSearch: undefined
+} </script></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概述"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类加载的时机"><span class="toc-number">2.</span> <span class="toc-text">类加载的时机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类加载的过程"><span class="toc-number">3.</span> <span class="toc-text">类加载的过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#加载"><span class="toc-number">3.1.</span> <span class="toc-text">加载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#验证"><span class="toc-number">3.2.</span> <span class="toc-text">验证</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#文件格式验证"><span class="toc-number">3.2.1.</span> <span class="toc-text">文件格式验证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#元数据验证"><span class="toc-number">3.2.2.</span> <span class="toc-text">元数据验证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#字节码验证"><span class="toc-number">3.2.3.</span> <span class="toc-text">字节码验证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#符号引用验证"><span class="toc-number">3.2.4.</span> <span class="toc-text">符号引用验证</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#准备"><span class="toc-number">3.3.</span> <span class="toc-text">准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解析"><span class="toc-number">3.4.</span> <span class="toc-text">解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化"><span class="toc-number">3.5.</span> <span class="toc-text">初始化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类加载器"><span class="toc-number">4.</span> <span class="toc-text">类加载器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#类与类加载器"><span class="toc-number">4.1.</span> <span class="toc-text">类与类加载器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#双亲委派模型"><span class="toc-number">4.2.</span> <span class="toc-text">双亲委派模型</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://avatars3.githubusercontent.com/u/24917694?s=460&amp;v=4"></div><div class="author-info__name text-center">Folgerjun</div><div class="author-info__description text-center">DoubleFJ の Blog</div><div class="follow-button"><a href="https://github.com/Folgerjun" target="_blank">follow ?</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">39</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">34</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">11</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">Links</div><a class="author-info-links__name text-center" href="http://lay.putop.top" target="_blank">lay.putop.top</a><a class="author-info-links__name text-center" href="http://face.putop.top" target="_blank">face.putop.top</a><a class="author-info-links__name text-center" href="http://devx.ddd.it/en/experiment/8/" target="_blank">music-interesting</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://raw.githubusercontent.com/Folgerjun/materials/master/blog/img/top_img.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">DoubleFJ の Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/about">About</a></span></div><div id="post-info"><div id="post-title">JVM 之类加载机制</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2018-11-25</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/开发/">开发</a><i class="fa fa-angle-right" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/开发/JVM/">JVM</a><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">3,998</span><span class="post-meta__separator">|</span><span>阅读时长: 12 分钟</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div id="post-content"><blockquote>
+<p>代码编译的结果从本地机器码转变为字节码，是存储格式发展的一小步，却是编程语言发展的一大步。</p>
+</blockquote>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>虚拟机把描述类的数据从 Class 文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的 Java 类型，这就是虚拟机的类加载机制。</p>
+<p>与那些在编译时需要进行连接工作的语言不同，在 Java 语言里面，类型的加载、连接和初始化过程都是在程序运行期间完成的，Java 里天生可以动态扩展的语言特性就是依赖 <strong>运行期动态加载</strong>和 <strong>动态连接</strong>这个特点实现的。</p>
+<h2 id="类加载的时机"><a href="#类加载的时机" class="headerlink" title="类加载的时机"></a>类加载的时机</h2><p>类从被加载到虚拟机内存中开始，到卸载出内存为止，它的整个生命周期包括：加载、验证、准备、解析、初始化、使用和卸载 7 个阶段。其中验证、准备、解析 3 个部分统称为连接。</p>
+<p><img src="https://raw.githubusercontent.com/Folgerjun/materials/master/blog/img/JVM/JVM-Class-Period.png" alt="类的生命周期"></p>
+<p>加载、验证、准备、初始化和卸载这 5 个阶段的顺序是确定的，类的加载过程必须按照这种顺序按部就班地开始，而解析阶段则不一定：它在某些情况下可以在初始化阶段之后再开始，这是为了支持 Java 语言的运行时绑定（也称为动态绑定或晚期绑定）。</p>
+<p>对于初始化阶段，虚拟机规范是严格规定了 <strong>有且只有</strong> 5 中情况必须对类进行“初始化”（而加载、验证、准备自然需要在此之前开始）：</p>
+<ul>
+<li>遇到 new、getstatic、putstatic 或 invokestatic 这 4 条字节码指令时，如果类没有进行过初始化，则需要先触发其初始化</li>
+<li>使用 java.lang.reflect 包的方法对类进行反射调用的时候，如果类没有进行过初始化，则需要先触发其初始化</li>
+<li>当初始化一个类的时候，如果发现其父类还没有进行过初始化，则需要先触发其父类的初始化</li>
+<li>当虚拟机启动时，用户需要指定一个要执行的主类（包含 main() 方法的那个类），虚拟机会先初始化这个主类</li>
+<li>当使用 JDK 1.7 的动态语言支持时，如果一个 java.lang.invoke.MethodHandle 实例最后的解析结果 REF_getStatic、REF_putStatic、REF_invokeStatic 的方法句柄，并且这个方法句柄所对应的类没有进行过初始化，则需要先触发其初始化</li>
+</ul>
+<p><strong>这 5 中场景中的行为称为对一个类进行主动引用。除此之外，所有引用类的方式都不会触发初始化，称为被动引用。</strong></p>
+<p>被动引用举例：</p>
+<ul>
+<li>通过子类引用父类的静态字段，不会导致子类初始化</li>
+<li>通过数组定义来引用类，不会触发此类的初始化</li>
+<li>常量在编译阶段存入常量池中，调用时不会触发定义常量的类的初始化</li>
+</ul>
+<p>接口的加载过程与类加载过程稍有一些不同，针对接口需要做一些特殊处理：接口也有初始化过程，虽然接口中不能使用 “static{}” 语句块，但编译器仍然会为接口生成 “<code>&lt;clinit&gt;()</code>” 类构造器，用于初始化接口中所定义的成员变量。</p>
+<p><strong>当一个类在初始化时，要求其父类全部都已经初始化过了，但是一个接口在初始化时，并不要求其父接口全部都完成了初始化，只有在真正使用到父接口的时候（如引用接口中定义的常量）才会初始化。</strong></p>
+<h2 id="类加载的过程"><a href="#类加载的过程" class="headerlink" title="类加载的过程"></a>类加载的过程</h2><p>类加载的全过程也就是加载、验证、准备、解析和初始化这 5 个阶段所执行的具体动作。</p>
+<h3 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h3><p>“加载”是“类加载”过程的一个阶段，在加载阶段，虚拟机需要完成以下 3 件事情：</p>
+<ul>
+<li>通过一个类的全限定名来获取定义此类的二进制字节流</li>
+<li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构</li>
+<li>在内存中生成一个代表这个类的 java.lang.Class 对象，作为方法区这个类的各种数据的访问入口</li>
+</ul>
+<p>加载阶段完成后，虚拟机外部的二进制字节流就按照虚拟机所需的格式存储在方法区之中，方法区中的数据存储格式由虚拟机实现自行定义，虚拟机规范未规定此区域的具体数据结构。然后在内存中实例化一个 java.lang.Class 类的对象（并没有明确规定是在 Java 堆中，对于 HotSpot 虚拟机而言，Class 对象比较特殊，它虽然是对象，但是存放在方法区里面），这个对象将作为程序访问方法区中的这些类型数据的外部接口。</p>
+<p>加载阶段与连接阶段的部分内容是交叉进行的，如一部分字节码文件格式验证动作。</p>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>验证是连接阶段的第一步，这一阶段的目的是为了确保 Class 文件的字节流中包含的信息符合当前虚拟机的要求，并且不会危害虚拟机自身的安全。</p>
+<p>从整体上看，验证阶段大致上会完成下面 4 个阶段的校验动作：</p>
+<h4 id="文件格式验证"><a href="#文件格式验证" class="headerlink" title="文件格式验证"></a>文件格式验证</h4><p>第一阶段要验证字节流是否符合 Class 文件格式的规范，保证输入的字节流能正确地解析并存储于方法区之内，并且能被当前版本的虚拟机处理。</p>
+<p>该阶段的验证是基于二进制字节流进行的，只有通过了这个阶段的验证后，字节流才会进入内存的方法区中进行存储。</p>
+<h4 id="元数据验证"><a href="#元数据验证" class="headerlink" title="元数据验证"></a>元数据验证</h4><p>第二阶段是对字节码描述的信息进行语义分析，对类的元数据信息进行语义校验，以保证其描述的信息符合 Java 语言规范的要求。</p>
+<h4 id="字节码验证"><a href="#字节码验证" class="headerlink" title="字节码验证"></a>字节码验证</h4><p>第三阶段是整个验证过程中最复杂的一个阶段，主要目的是通过数据流和控制流分析，确定程序语义是合法的、符合逻辑的。</p>
+<p>如果一个类方法体的字节码没有通过字节码验证，那肯定是有问题的；但如果一个方法体通过了字节码验证，也不能说明其一定就是安全的。即使字节码验证之中进行了大量的检查，也不能保证这一点。<strong>即通过程序去校验程序逻辑是无法做到绝对准确的——不能通过程序准确地检查出程序是否能在有限的时间之内结束运行。</strong></p>
+<h4 id="符号引用验证"><a href="#符号引用验证" class="headerlink" title="符号引用验证"></a>符号引用验证</h4><p>最后一个阶段的校验发生在虚拟机将符号引用转化为直接引用的时候，这个转化动作将在连接的第三阶段——解析阶段中发生。符号引用验证可以看做是对类自身以外（常量池中的各种符号引用）的信息进行匹配性校验。</p>
+<p>符号引用验证的目的是确保解析动作能正常执行。</p>
+<p>对于虚拟机的类加载机制来说，验证阶段是一个非常重要的、但不是一定必要的阶段。</p>
+<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>准备阶段是正式为类变量分配内存并设置类变量初始值的阶段，这些变量所使用的内存都将在方法区中进行分配。</p>
+<p>这时候进行内存分配的仅包括类变量（被 static 修饰的变量），而不包括实例变量，实例变量将会在对象实例化时随着对象一起分配在 Java 堆中。</p>
+<p><code>public static int value = 123;</code></p>
+<p>上述的 value 变量在准备阶段过后的初始值为 0 而不是 123，因为这时候尚未开始执行任何 Java 方法，而把 value 赋值为 123 的 <code>putstatic</code> 指令是程序被编译后，存放于类构造器 <code>&lt;clinit&gt;()</code> 方法之中，所以把 value 赋值为 123 的动作将在初始化阶段才会执行。</p>
+<p>如果类字段的字段属性表中存在 ConstantValue 属性，那在准备阶段变量 value 就会被初始化为 ConstantValue 属性所指定的值，如：</p>
+<p><code>public static final int value = 123;</code></p>
+<p>编译时 Javac 将会为 value 生成 ConstantValue 属性，在准备阶段虚拟机就会根据 ConstantValue 的设置将 value 赋值为 123。</p>
+<h3 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h3><p>解析阶段是虚拟机将常量池内的符号引用替换为直接引用的过程。</p>
+<ul>
+<li>符号引用：符号引用以一组符号来描述所引用的目标，符号可以是任何形式的字面量，只要使用时能无歧义地定位到目标即可。</li>
+<li>直接引用：直接引用可以是直接指向目标的指针、相对偏移量或是一个能间接定位到目标的句柄。</li>
+</ul>
+<p>解析动作主要针对以下 7 类符号引用进行：</p>
+<ul>
+<li>类或接口的解析</li>
+<li>字段解析</li>
+<li>类方法解析</li>
+<li>接口方法解析</li>
+<li>方法类型解析</li>
+<li>方法句柄解析</li>
+<li>调用点限定符解析</li>
+</ul>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>类初始化阶段是类加载过程的最后一步，前面的类加载过程中，除了在加载阶段用户应用程序可以通过自定义类加载器参与之外，其余动作完全由虚拟机主导和控制。到了初始化阶段，才真正开始执行类中定义的 Java 程序代码（或者说是字节码）。</p>
+<p>初始化阶段是执行类构造器 <code>&lt;clinit&gt;()</code> 方法的过程，在这执行过程中一些可能会影响程序运行行为的特点和细节：</p>
+<ul>
+<li><code>&lt;clinit&gt;()</code> 方法是由编译器自动收集类中所有类变量的赋值动作和静态语句块（static{} 块）中的语句合并产生的，编译器收集的顺序是由语句在源文件中出现的顺序所决定的，<strong>静态语句块中只能访问到定义在静态语句块之前的变量，定义在它之后的变量，在前面的静态语句块可以赋值，但是不能访问。</strong></li>
+<li><code>&lt;clinit&gt;()</code> 方法与类的构造函数（或者说实例构造器 <code>&lt;init&gt;()</code> 方法）不同，它不需要显式地调用父类构造器，虚拟机会保证在子类的 <code>&lt;clinit&gt;()</code> 方法执行之前，父类的 <code>&lt;clinit&gt;()</code> 方法已经执行完毕。因此在虚拟机中第一个被执行的 <code>&lt;clinit&gt;()</code> 方法的类肯定是 java.lang.Object。</li>
+<li>由于父类的 <code>&lt;clinit&gt;()</code> 方法先执行，也就意味着父类中定义的静态语句块要优先于子类的变量赋值操作。</li>
+<li><code>&lt;clinit&gt;()</code> 方法对于类或接口来说并不是必需的，如果一个类中没有静态语句块，也没有对变量的赋值操作，那么编译器可以不为这个类生成 <code>&lt;clinit&gt;()</code> 方法。</li>
+<li>接口中不能使用静态语句块，但仍然有变量初始化的赋值操作，因此接口与类一样都会生成 <code>&lt;clinit&gt;()</code> 方法。但接口与类不同的是，执行接口的 <code>&lt;clinit&gt;()</code> 方法不需要先执行父接口的 <code>&lt;clinit&gt;()</code> 方法。只有当父接口中定义的变量使用时，父接口才会初始化。另外，接口的实现类在初始化时也一样不会执行接口的 <code>&lt;clinit&gt;()</code> 方法。</li>
+<li>虚拟机会保证一个类的 <code>&lt;clinit&gt;()</code> 方法在多线程环境中被正确地加锁、同步，如果多个线程同时去初始化一个类，那么只会有一个线程去执行这个类的 <code>&lt;clinit&gt;()</code> 方法，其他线程都需要阻塞等待，直到活动线程执行 <code>&lt;clinit&gt;()</code> 方法完毕。如果在一个类的 <code>&lt;clinit&gt;()</code> 方法中有耗时很长的操作，就可能造成多个进程阻塞，在实际应用中这种阻塞往往是很隐蔽的。</li>
+</ul>
+<h2 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h2><p>虚拟机设计团队把类加载器阶段中的“通过一个类的全限定名来获取描述此类的二进制字节流”这个动作放到 Java 虚拟机外部去实现，以便让应用程序自己决定如何去获取所需要的类。实现这个动作的代码模块称为“类加载器”。</p>
+<h3 id="类与类加载器"><a href="#类与类加载器" class="headerlink" title="类与类加载器"></a>类与类加载器</h3><p>对于任意一个类，都需要由加载它的类加载器和这个类本身一同确立其在 Java 虚拟机中的唯一性，每一个类加载器，都拥有一个独立的类名称空间。</p>
+<h3 id="双亲委派模型"><a href="#双亲委派模型" class="headerlink" title="双亲委派模型"></a>双亲委派模型</h3><p>从 Java 虚拟机的角度来讲，只存在两种不同的类加载器：</p>
+<ul>
+<li>启动类加载器，这个类加载器使用 C++ 语言实现，是虚拟机自身的一部分</li>
+<li>所有其他的类加载器，这些类加载器都由 Java 语言实现，独立于虚拟机外部，并且全部都继承自抽象类 java.lang.ClassLoader</li>
+</ul>
+<p>类加载器还可以划分得更细致一些，绝大部分 Java 程序都会使用到一下 3 种系统提供的类加载器：</p>
+<ul>
+<li>启动类加载器（Bootstrap ClassLoader）：这个类加载器负责将存放在 <code>&lt;JAVA_HOME&gt;\lib</code> 目录中的，或者被 <code>-Xbootclasspath</code> 参数所指定的路径中的，并且是虚拟机识别的类库加载到虚拟机内存中。启动类加载器无法被 Java 程序直接引用，用户在编写自定义类加载器时，如果需要把加载请求委派给引导类加载器，那直接使用 null 代替即可。</li>
+<li>扩展类加载器（Extension ClassLoader）：这个加载器由 sun.misc.Launcher$ExtClassLoader 实现，它负责加载 <code>&lt;JAVA_HOME&gt;\lib\ext</code> 目录中的，或者被 java.ext.dirs 系统变量所指定的路径中的所有类库，开发者可以直接使用扩展类加载器。</li>
+<li>应用程序类加载器（Application ClassLoader）：这个类加载器由 sun.misc.Launcher$AppClassLoader 实现。由于这个类加载器是 ClassLoader 中的 getSystemClassLoader() 方法的返回值，所以一般也称它为系统类加载器。它负责加载用户类路径（ClassPath）上所指定的类库，开发者可以直接使用这个类加载器，如果应用程序中没有自定义过自己的类加载器，一般情况下这个就是程序中默认的类加载器。</li>
+</ul>
+<p>我们的应用程序都是由这 3 种类加载器互相配合进行加载的，如果有必要，还可以加入自己定义的类加载器。</p>
+<p><img src="https://raw.githubusercontent.com/Folgerjun/materials/master/blog/img/JVM/JVM-Class-Loader.png" alt="类加载器双亲委派模型"></p>
+<p>上图中展示的类加载器之间的这种层次关系，称为类加载器的双亲委派模型。</p>
+<p><strong>双亲委派模型的工作过程是：如果一个类加载器收到了类加载器的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器去完成，每一个层次的类加载器都是如此，因此所有的加载请求最终都应该传送到顶层的启动类加载器中，只有当父加载器反馈自己无法完成这个加载请求（它的搜索范围中没有找到所需的类）时，子加载器才会尝试自己去加载。</strong></p>
+<hr>
+<p>End.这一篇由于篇幅过大，故手稿就不丢出来了。还是一些概念，类加载是经常会被面试问到的知识点，可见其重要性了。该啃还是要啃的，就点醋……</p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Folgerjun</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://putop.top/2018/11/25/JVM-Class-Load/">http://putop.top/2018/11/25/JVM-Class-Load/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://putop.top" target="_blank">DoubleFJ の Blog</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/JVM/">JVM</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2018/11/27/leetcode-binary-tree-traversal/"><i class="fa fa-chevron-left">  </i><span>LeetCode 之二叉树的各种遍历（Binary Tree Traversal）</span></a></div><div class="next-post pull-right"><a href="/2018/11/24/JVM-Class-File/"><span>JVM 之类文件结构</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="vcomment"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'true' == true ? true : false;
+var verify = 'false' == true ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'lykH3HaE6LQDaaR68kpFjKtF-gzGzoHsz',
+  appKey:'PECt6iawOFxDkcUTOADzboyr',
+  placeholder:'Welcome to you, my friend!',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10'
+})</script></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2018 By Folgerjun</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="icp"><a><span>皖ICP备17001794号-2</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.5.4"></script><script src="/js/fancybox.js?version=1.5.4"></script><script src="/js/sidebar.js?version=1.5.4"></script><script src="/js/copy.js?version=1.5.4"></script><script src="/js/fireworks.js?version=1.5.4"></script><script src="/js/transition.js?version=1.5.4"></script><script src="/js/scroll.js?version=1.5.4"></script><script src="/js/head.js?version=1.5.4"></script></body></html>
