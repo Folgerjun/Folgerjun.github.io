@@ -1,9 +1,18 @@
 <!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="JVM 之垃圾收集器与内存分配策略"><meta name="keywords" content="Java,JVM"><meta name="author" content="Folgerjun,undefined"><meta name="copyright" content="Folgerjun"><title>JVM 之垃圾收集器与内存分配策略 | DoubleFJ の Blog</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.4"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.js" defer></script><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
 (function() {
   var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?7aad83bb2e8992c6c6479f56e988e5b7";
+  hm.src = "https://hm.baidu.com/hm.js?89562ffd8d69e0dfef68df26ee20654c";
   var s = document.getElementsByTagName("script")[0]; 
   s.parentNode.insertBefore(hm, s);
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  s.parentNode.insertBefore(bp, s);
 })();</script><script>var GLOBAL_CONFIG = { 
   root: '/',
   algolia: {"appId":"LQFV2HSBA9","apiKey":"1abe86b5af2a3a59af2ef30373411d90","indexName":"my-blog","hits":{"per_page":10},"labels":{"input_placeholder":"search what ?","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},
