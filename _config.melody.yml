@@ -306,8 +306,8 @@ canvas_ribbon:
 
 # Sidebar Settings
 # ---------------
-links_title: Links
-links:
+#links_title: Links
+#links:
   #lay.putop.top: http://lay.putop.top
   #face.putop.top: http://face.putop.top
   #music-interesting: http://devx.ddd.it/en/experiment/8/
