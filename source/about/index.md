@@ -4,12 +4,12 @@ date: 2018-05-22 09:21:32
 type: "about"
 comments: true
 ---
-<center>
-**生死本无常，<br>
-人应多思量；<br>
-不观生命本真，<br>
-智者也同愚人一样。**
-</center>
+<div style="text-align: center;">
+<strong>生死本无常，</strong><br>
+<strong>人应多思量；</strong><br>
+<strong>不观生命本真，</strong><br>
+<strong>智者也同愚人一样。</strong>
+</div>
 
 ----------
 
