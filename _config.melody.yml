@@ -275,7 +275,7 @@ since: 2018
 # footer_custom_text: put custom text directly or put hitokoto to fetch random texts
 
 ICP:
-  enable: true
+  enable: false
   text: 沪ICP备20004256号
 
 # busuanzi count for PV / UV in site
