@@ -137,9 +137,9 @@ cdn:
 
 # Post info settings
 # ---------------
-avatar: https://cdn.putop.top/avatar.jpg
+avatar: /avatar.jpg
 
-top_img: https://cdn.putop.top/top_img.jpg
+top_img: /top_img.jpg
 
 top_img_height: 60 # best range: 60 - 100
 
