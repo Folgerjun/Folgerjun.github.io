@@ -137,9 +137,9 @@ cdn:
 
 # Post info settings
 # ---------------
-avatar: /avatar.jpg
+avatar: https://github.com/Folgerjun/materials/blob/master/blog/img/avatar.jpg
 
-top_img: /top_img.jpg
+top_img: https://github.com/Folgerjun/materials/blob/master/blog/img/top_img.jpg
 
 top_img_height: 60 # best range: 60 - 100
 
