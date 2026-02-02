@@ -21,6 +21,10 @@ comments: true
 - [netty4-datatrans](https://github.com/Folgerjun/netty4-datatrans) 用 Netty4 实现数据报文的接收/拆包/重组/转发
 - [database-backup](https://github.com/Folgerjun/database-backup) 数据库备份轻便脚本
 
+**↑↑↑都是好几年前瞎捣鼓的东西了 过时了↑↑↑**
+
+- [xueqiu-idea-plugin](https://github.com/Folgerjun/xueqiu-idea-plugin) 一个专为开发者设计的雪球网阅读插件。
+
 **GitHub均有同名代码**
 
 ----------
