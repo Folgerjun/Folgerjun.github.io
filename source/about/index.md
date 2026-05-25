@@ -23,7 +23,10 @@ comments: true
 
 **↑↑↑都是好几年前瞎捣鼓的东西了 过时了↑↑↑**
 
+**↓↓↓都是用 AI 弄出来的↓↓↓**
+
 - [xueqiu-idea-plugin](https://github.com/Folgerjun/xueqiu-idea-plugin) 一个专为开发者设计的雪球网阅读插件。
+- [tmoreader](https://github.com/Folgerjun/tmoreader) 终端摸鱼阅读器，在 PowerShell / Windows Terminal / Linux 终端中阅读 PDF / EPUB / TXT，渲染成伪代码 / 伪日志 / 伪 git diff 三种风格，远看就像在认真工作 🥷。
 
 **GitHub均有同名代码**
 
