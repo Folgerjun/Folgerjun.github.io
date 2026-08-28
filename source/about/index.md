@@ -27,6 +27,8 @@ comments: true
 
 - [xueqiu-idea-plugin](https://github.com/Folgerjun/xueqiu-idea-plugin) 一个专为开发者设计的雪球网阅读插件。
 - [tmoreader](https://github.com/Folgerjun/tmoreader) 终端摸鱼阅读器，在 PowerShell / Windows Terminal / Linux 终端中阅读 PDF / EPUB / TXT，渲染成伪代码 / 伪日志 / 伪 git diff 三种风格，远看就像在认真工作 🥷。
+- [xueqiu-cli](https://github.com/Folgerjun/xueqiu-cli) 一个跨平台（Windows PowerShell / Linux / macOS）的雪球命令行插件。
+- [stock-tui](https://github.com/Folgerjun/stock-tui) 在终端（PowerShell / Windows Terminal / Linux Shell）中查看 A 股 K 线图、市盈率、成交量等基本信息的小工具。
 
 **GitHub均有同名代码**
 
