@@ -326,7 +326,7 @@ sidebar_display: post # all/index/post/index-none/post-none/hidden
 # Google Adsense
 google_adsense:
   enable: true
-  js: https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js
+  js: https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4849612036765942
   client: ca-pub-4849612036765942
   enable_page_level_ads: true
 
